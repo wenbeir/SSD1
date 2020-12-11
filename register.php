@@ -7,7 +7,7 @@ $DATABASE_NAME = 'phplogin';
 $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
 if (mysqli_connect_errno()) {
 	// If there is an error with the connection, stop the script and display the error.
-	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
+	exit(mysqli_connect_error());
 }
 // Now we check if the data was submitted, isset() function will check if the data exists.
 if (!isset($_POST['username'], $_POST['password'], $_POST['email'])) {
@@ -24,7 +24,7 @@ if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 	exit('Email is not valid!');
 }
 
-if (preg_match('/[A-Za-z0-9]+/', $_POST['username']) == 0) {
+if (preg_match('/^[A-Za-z0-9]+/', $_POST['username']) == 0) {
     exit('Username is not valid!');
 }
 
