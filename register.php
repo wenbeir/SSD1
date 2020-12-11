@@ -9,7 +9,6 @@ if (mysqli_connect_errno()) {
 	// If there is an error with the connection, stop the script and display the error.
 	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
 }
-
 // Now we check if the data was submitted, isset() function will check if the data exists.
 if (!isset($_POST['username'], $_POST['password'], $_POST['email'])) {
 	// Could not get the data that should have been sent.
@@ -29,10 +28,14 @@ if (preg_match('/[A-Za-z0-9]+/', $_POST['username']) == 0) {
     exit('Username is not valid!');
 }
 
-if (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 5) {
-	exit('Password must be between 5 and 20 characters long!');
+if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $_POST['password'])) {
+    exit ('
+There has to be at least one number -> (?=.*\d)
+and at least one letter -> (?=.*[A-Za-z])
+and it has to be a number, a letter or one of the following: !@#$% -> [0-9A-Za-z!@#$%]
+and there have to be 8-12 characters -> {8,12}'
+         );
 }
-
 // We need to check if the account with that username exists.
 if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?')) {
 	// Bind parameters (s = string, i = int, b = blob, etc), hash the password using the PHP password_hash function.
@@ -42,7 +45,7 @@ if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?'
 	// Store the result so we can check if the account exists in the database.
 	if ($stmt->num_rows > 0) {
 		// Username already exists
-		echo 'Username exists, please choose another!';
+		echo 'Something Went Wrong';
 	} else {
 		// Username doesnt exists, insert new account
 if ($stmt = $con->prepare('INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)')) {

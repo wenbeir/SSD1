@@ -13,7 +13,7 @@ if (isset($_POST['title'], $_POST['msg'])) {
     {
         // Insert new record into the tickets table
         $stmt = $pdo->prepare('INSERT INTO tickets (user_id, title, msg) VALUES (?, ?, ?)');
-        $stmt->execute([$_POST['user_id'], $_POST['title'], $_POST['msg'] ]);
+        $stmt->execute([$_SESSION['id'], $_POST['title'], $_POST['msg'] ]);
         // Redirect to the view ticket page, the user will see their created ticket on this page
         header('Location: view.php?id=' . $pdo->lastInsertId());
     }
@@ -29,7 +29,6 @@ if (isset($_POST['title'], $_POST['msg'])) {
     <form action="create.php" method="post">
         <label for="title">Title</label>
         <input type="text" name="title" placeholder="Title" id="title" required>
-        <input type='hidden' name='user_id' value='<?php echo htmlspecialchars($_SESSION['id']) ?> '>
         <label for="ticket_type">Choose a Ticket Type:</label>
         <select name="ticket_type" id="ticket_type">
             <option value="development">Development</option>

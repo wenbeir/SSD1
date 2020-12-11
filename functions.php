@@ -31,6 +31,7 @@ echo <<<EOT
     	<div>
     		<h1>Ticketing System</h1>
             <a href="home.php"><i class="fas fa-ticket-alt"></i>Tickets</a>
+            <a href="logout.php"><i class="fas fa-ticket-alt"></i>Logout</a>
     	</div>
     </nav>
 EOT;

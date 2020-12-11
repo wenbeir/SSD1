@@ -21,8 +21,7 @@ $tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="content home">
 
 	<h2>Tickets</h2>
-    <h2>Hi, <?php echo htmlspecialchars($_SESSION['name']) ?></h2>
-	<p>Welcome to the index page, you can view the list of tickets below.</p>
+    <p>Welcome <b><?php echo htmlspecialchars($_SESSION['name'])?></b> to the ticketing system, you can view the list of tickets below.</p>
 
 	<div class="btns">
 		<a href="create.php" class="btn">Create Ticket</a>
@@ -50,7 +49,6 @@ $tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		</a>
 		<?php endforeach; ?>
 	</div>
-
 </div>
 
 <?=template_footer()?>

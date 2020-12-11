@@ -34,13 +34,16 @@ if (isset($_GET['status']) && in_array($_GET['status'], array('open', 'closed', 
 if (isset($_POST['msg']) && !empty($_POST['msg'])) {
     // Insert the new comment into the "tickets_comments" table
     $stmt = $pdo->prepare('INSERT INTO tickets_comments (user_id, ticket_id, msg) VALUES (?, ?, ?)');
-    $stmt->execute([ $_POST['user_id'], $_GET['id'], $_POST['msg'] ]);
+    $stmt->execute([ $_SESSION['id'], $_GET['id'], $_POST['msg'] ]);
     header('Location: view.php?id=' . $_GET['id']);
     exit;
 }
 $stmt = $pdo->prepare('SELECT * FROM tickets_comments WHERE ticket_id = ? ORDER BY created DESC');
 $stmt->execute([ $_GET['id'] ]);
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
 ?>
 
 <?=template_header('Ticket')?>
@@ -74,7 +77,6 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <?php endforeach; ?>
         <form action="" method="post">
-            <input type='test' name='user_id' value='<?php echo htmlspecialchars($_SESSION['id']) ?> '>
             <textarea name="msg" placeholder="Enter your comment..."></textarea>
             <input type="submit" value="Post Comment">
         </form>
